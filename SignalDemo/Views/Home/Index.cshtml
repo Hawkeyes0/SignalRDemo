@@ -6,3 +6,27 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+<div class="container">
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-2">User:&nbsp;</div>
+        <div class="col-4"><input type="text" id="sender"/></div>
+    </div>
+    <div class="row">
+        <div class="col-2">Message:&nbsp;</div>
+        <div class="col-4"><input type="text" id="message"/></div>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-6"><input type="button" id="send" value="Send"/></div>
+    </div>
+    <hr/>
+    <div class="row">
+        <div class="col-6">
+            <ul id="messagesList"></ul>
+        </div>
+    </div>
+</div>
+<script src="~/lib/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/chat.js"></script>
