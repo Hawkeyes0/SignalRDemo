@@ -21,6 +21,8 @@ namespace SignalDemo
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                })
+                .ConfigureLogging(builder=>{
                 });
     }
 }

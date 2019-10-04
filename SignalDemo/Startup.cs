@@ -28,6 +28,7 @@ namespace SignalDemo
                 options.CheckConsentNeeded = context => true;
             });
             services.AddControllersWithViews();
+            services.AddLogging();
             services.AddSignalR();
         }
 

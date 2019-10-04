@@ -3,38 +3,48 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 using SignalDemo.Models;
 
 namespace SignalDemo.Hubs
 {
     public class ChatHub : Hub
     {
-        private List<User> _users = new List<User>();
+        private static readonly List<User> _users = new List<User>();
 
-        private List<Room> _rooms = new List<Room>();
+        private static readonly List<Room> _rooms = new List<Room>();
 
-        public void JoinIn(string username)
+        private readonly ILogger<ChatHub> _logger;
+
+        public ChatHub(ILogger<ChatHub> logger)
         {
+            _logger = logger;
+        }
+
+        public async Task JoinIn(string username)
+        {
+            _logger.LogDebug("JoinIn invoked!");
             if (_users.Any(e => e.Username == username))
             {
                 throw new HubException("User name has exists.");
             }
             _users.Add(new User { Username = username, ConnectionId = Context.ConnectionId });
+            await Clients.All.SendAsync("AddMember", "", username);
         }
 
         public async Task SendMessage(MessagePack message)
         {
-            var user = _users.Where(e => e.Username == message.Receiver);
-            if (!user.Any())
-            {
-                throw new HubException("Unknown user");
-            }
             if (message.Receiver == null)
             {
                 await Clients.All.SendAsync("ReceiveMessage", message);
             }
             else
             {
+                var user = _users.Where(e => e.Username == message.Receiver);
+                if (!user.Any())
+                {
+                    throw new HubException("Unknown user");
+                }
                 await Clients.Client(user.Single().ConnectionId).SendAsync("ReceiveMessage", message);
             }
         }

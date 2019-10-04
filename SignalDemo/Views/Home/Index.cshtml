@@ -2,31 +2,54 @@
     ViewData["Title"] = "Home Page";
 }
 
+@section head {
+    <link rel="stylesheet" href="~/css/chat.css"/>
+}
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
 <div class="container">
-    <div class="row">&nbsp;</div>
-    <div class="row">
-        <div class="col-2">User:&nbsp;</div>
-        <div class="col-4"><input type="text" id="sender"/></div>
-    </div>
-    <div class="row">
-        <div class="col-2">Message:&nbsp;</div>
-        <div class="col-4"><input type="text" id="message"/></div>
-    </div>
-    <div class="row">&nbsp;</div>
-    <div class="row">
-        <div class="col-6"><input type="button" id="send" value="Send"/></div>
-    </div>
-    <hr/>
-    <div class="row">
-        <div class="col-6">
+    <div id="layout">
+        <nav>
+            <ul id="users">
+                <li><input type="radio" value="" name="receiver" checked><div>-- To All --</div></li>
+            </ul>
+        </nav>
+        <div id="main">
             <ul id="messagesList"></ul>
+        </div>
+        <div id="form">
+            <textarea id="message"></textarea>
+            <input type="button" id="send" value="Send"/>
         </div>
     </div>
 </div>
-<script src="~/lib/signalr/dist/browser/signalr.js"></script>
-<script src="~/js/chat.js"></script>
+
+<div class="modal" tabindex="-1" role="dialog" id="joinin">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">进入聊天室</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>请输入您的昵称</p>
+        <input id="sender"/>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">离开</button>
+        <button type="button" class="btn btn-primary" id="join">进入</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/vue/dist/vue.js"></script>
+    <script src="~/lib/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/chat.js"></script>
+}
